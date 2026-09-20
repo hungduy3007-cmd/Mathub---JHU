@@ -1,5 +1,5 @@
 import React from 'react';
-import { BookOpen, Sparkles, Trophy, BarChart3, MessageSquare, Flame, Search, Bell, Sun, Moon } from 'lucide-react';
+import { BookOpen, Sparkles, Trophy, BarChart3, MessageSquare, Flame, Search, Bell, Sun, Moon, Users, LogIn } from 'lucide-react';
 import { UserProfile } from '../types';
 
 interface HeaderProps {
@@ -12,6 +12,7 @@ interface HeaderProps {
   onOpenReminderNotification?: () => void;
   isDarkMode: boolean;
   onToggleDarkMode: () => void;
+  onOpenAuth: (tab?: 'login' | 'register' | 'switch') => void;
 }
 
 export const Header: React.FC<HeaderProps> = ({
@@ -24,6 +25,7 @@ export const Header: React.FC<HeaderProps> = ({
   onOpenReminderNotification,
   isDarkMode,
   onToggleDarkMode,
+  onOpenAuth,
 }) => {
   const navItems = [
     { id: 'formulas', label: 'Sổ Tay Công Thức', icon: BookOpen },
@@ -121,15 +123,26 @@ export const Header: React.FC<HeaderProps> = ({
               <span className="text-xs font-bold">{userProfile.streak} ngày</span>
             </div>
 
+            {/* Switch Account Button */}
+            <button
+              onClick={() => onOpenAuth('switch')}
+              className="flex items-center gap-1.5 px-2.5 py-1 text-xs font-bold text-slate-700 dark:text-slate-200 bg-slate-100 hover:bg-orange-50 dark:bg-slate-800 dark:hover:bg-slate-700/80 hover:text-orange-600 dark:hover:text-orange-400 rounded-full border border-slate-200 dark:border-slate-700 transition-colors"
+              title="Đổi tài khoản hoặc đăng nhập tài khoản khác"
+            >
+              <Users className="w-3.5 h-3.5 text-orange-500" />
+              <span className="hidden lg:inline">Tài khoản</span>
+            </button>
+
             {/* XP and User Profile */}
             <button
               onClick={onOpenProfile}
               className="flex items-center gap-2 pl-2 pr-3 py-1 rounded-full bg-indigo-50 dark:bg-indigo-950/40 hover:bg-indigo-100 dark:hover:bg-indigo-900/50 border border-indigo-200 dark:border-indigo-800 text-indigo-900 dark:text-indigo-200 transition-colors"
+              title="Xem hồ sơ học tập và thành tích"
             >
               <span className="text-lg leading-none">{userProfile.avatar}</span>
               <div className="text-left hidden md:block">
                 <p className="text-xs font-bold leading-none">{userProfile.name}</p>
-                <p className="text-[10px] text-indigo-600 dark:text-indigo-400 font-semibold mt-0.5">{userProfile.xp} XP • Cấp {userProfile.level}</p>
+                <p className="text-[10px] text-indigo-600 dark:text-indigo-400 font-semibold mt-0.5">{userProfile.xp} XP • Lớp {userProfile.grade}</p>
               </div>
             </button>
           </div>

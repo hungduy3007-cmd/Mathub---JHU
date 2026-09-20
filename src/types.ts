@@ -69,6 +69,14 @@ export interface UserProfile {
   quizHistory: QuizAttempt[];
 }
 
+export interface UserAccount {
+  id: string;
+  username: string;
+  password?: string;
+  createdAt: string;
+  profile: UserProfile;
+}
+
 export interface LeaderboardUser {
   id: string;
   name: string;

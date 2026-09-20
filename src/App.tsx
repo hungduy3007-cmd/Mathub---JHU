@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { UserProfile, Formula } from './types';
-import { loadUserProfile, saveUserProfile } from './utils/storage';
+import { UserProfile, Formula, UserAccount } from './types';
+import { loadUserProfile, saveUserProfile, getCurrentAccount } from './utils/storage';
 import { FORMULAS } from './data/mathCurriculum';
 import { Header } from './components/Header';
 import { FormulaLibrary } from './components/FormulaLibrary';
@@ -10,6 +10,7 @@ import { ProgressAndReminder } from './components/ProgressAndReminder';
 import { LeaderboardView } from './components/LeaderboardView';
 import { ForumView } from './components/ForumView';
 import { ProfileModal } from './components/ProfileModal';
+import { AuthModal } from './components/AuthModal';
 import { Sparkles, Heart, Bell } from 'lucide-react';
 
 export default function App() {
@@ -18,6 +19,8 @@ export default function App() {
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [selectedFormulaToPractice, setSelectedFormulaToPractice] = useState<Formula | null>(null);
   const [isProfileModalOpen, setIsProfileModalOpen] = useState<boolean>(false);
+  const [isAuthModalOpen, setIsAuthModalOpen] = useState<boolean>(false);
+  const [authModalTab, setAuthModalTab] = useState<'login' | 'register' | 'switch'>('switch');
   const [isDarkMode, setIsDarkMode] = useState<boolean>(() => {
     const saved = localStorage.getItem('mathhub_theme');
     if (saved) return saved === 'dark';
@@ -47,6 +50,23 @@ export default function App() {
   const handleUpdateProfile = (newProfile: UserProfile) => {
     setUserProfile(newProfile);
     saveUserProfile(newProfile);
+  };
+
+  // Handle account switch / login / register
+  const handleAccountChanged = (newProfile: UserProfile, account: UserAccount) => {
+    setUserProfile(newProfile);
+    setNotificationToast({
+      show: true,
+      message: `Xin chào ${newProfile.name}! Đã đăng nhập vào tài khoản Lớp ${newProfile.grade} (${newProfile.xp} XP).`,
+    });
+    setTimeout(() => {
+      setNotificationToast({ show: false, message: '' });
+    }, 4000);
+  };
+
+  const handleOpenAuth = (tab: 'login' | 'register' | 'switch' = 'switch') => {
+    setAuthModalTab(tab);
+    setIsAuthModalOpen(true);
   };
 
   // Toggle favorite formula
@@ -161,6 +181,7 @@ export default function App() {
         onOpenReminderNotification={handleOpenReminderNotification}
         isDarkMode={isDarkMode}
         onToggleDarkMode={handleToggleDarkMode}
+        onOpenAuth={handleOpenAuth}
       />
 
       {/* Main View Container */}
@@ -222,8 +243,17 @@ export default function App() {
           userProfile={userProfile}
           onUpdateProfile={handleUpdateProfile}
           onClose={() => setIsProfileModalOpen(false)}
+          onOpenAuth={handleOpenAuth}
         />
       )}
+
+      {/* Multi-user Auth & Switch Modal */}
+      <AuthModal
+        isOpen={isAuthModalOpen}
+        initialTab={authModalTab}
+        onClose={() => setIsAuthModalOpen(false)}
+        onAccountChanged={handleAccountChanged}
+      />
 
       {/* Footer */}
       <footer className="bg-white dark:bg-slate-900 border-t border-amber-100 dark:border-slate-800 py-6 text-center text-xs text-slate-500 dark:text-slate-400 transition-colors">

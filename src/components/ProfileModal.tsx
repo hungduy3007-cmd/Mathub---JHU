@@ -3,19 +3,21 @@ import { UserProfile, Grade } from '../types';
 import { FORMULAS } from '../data/mathCurriculum';
 import { 
   Trophy, Flame, Award, CheckCircle2, 
-  X, Check, Sparkles, BookOpen 
+  X, Check, Sparkles, BookOpen, Users 
 } from 'lucide-react';
 
 interface ProfileModalProps {
   userProfile: UserProfile;
   onUpdateProfile: (profile: UserProfile) => void;
   onClose: () => void;
+  onOpenAuth?: (tab?: 'login' | 'register' | 'switch') => void;
 }
 
 export const ProfileModal: React.FC<ProfileModalProps> = ({
   userProfile,
   onUpdateProfile,
   onClose,
+  onOpenAuth,
 }) => {
   const [name, setName] = useState(userProfile.name);
   const [avatar, setAvatar] = useState(userProfile.avatar);
@@ -162,20 +164,36 @@ export const ProfileModal: React.FC<ProfileModalProps> = ({
             </div>
           </div>
 
-          <div className="flex justify-end gap-2 pt-2 border-t border-slate-100 dark:border-slate-800">
-            <button
-              type="button"
-              onClick={onClose}
-              className="px-4 py-2 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 font-bold transition-colors"
-            >
-              Hủy
-            </button>
-            <button
-              type="submit"
-              className="px-5 py-2 rounded-xl bg-orange-500 hover:bg-orange-600 text-white font-bold flex items-center gap-1.5 shadow-xs transition-colors"
-            >
-              <Check className="w-4 h-4" /> Lưu thông tin
-            </button>
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-2 pt-3 border-t border-slate-100 dark:border-slate-800">
+            {onOpenAuth && (
+              <button
+                type="button"
+                onClick={() => {
+                  onClose();
+                  onOpenAuth('switch');
+                }}
+                className="w-full sm:w-auto px-3 py-2 rounded-xl text-xs font-bold text-orange-600 dark:text-orange-400 bg-orange-50 hover:bg-orange-100 dark:bg-orange-950/40 dark:hover:bg-orange-900/50 border border-orange-200 dark:border-orange-800 flex items-center justify-center gap-1.5 transition-colors"
+              >
+                <Users className="w-3.5 h-3.5" />
+                <span>Đổi / Đăng nhập tài khoản khác</span>
+              </button>
+            )}
+
+            <div className="flex items-center justify-end gap-2 w-full sm:w-auto">
+              <button
+                type="button"
+                onClick={onClose}
+                className="px-4 py-2 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 text-xs font-bold transition-colors"
+              >
+                Hủy
+              </button>
+              <button
+                type="submit"
+                className="px-5 py-2 rounded-xl bg-orange-500 hover:bg-orange-600 text-white text-xs font-bold flex items-center gap-1.5 shadow-xs transition-colors"
+              >
+                <Check className="w-4 h-4" /> Lưu thông tin
+              </button>
+            </div>
           </div>
         </form>
       </div>

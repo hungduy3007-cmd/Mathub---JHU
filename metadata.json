@@ -1,6 +1,8 @@
 {
   "name": "MathHub THPT - Sổ Tay & Ôn Tập Công Thức Toán 10-12",
-  "description": "Hệ thống toàn bộ công thức Toán Hình và Số lớp 10, 11, 12. Tích hợp Flashcard ghi nhớ, Trắc nghiệm công thức, Bảng xếp hạng, Phân tích tiến độ và Diễn đàn học tập tươi sáng, thân thiện.",
+  "description": "Hệ thống toàn bộ công thức Toán Hình và Số lớp 10, 11, 12. Hỗ trợ nhiều tài khoản người dùng đăng nhập riêng biệt, tích hợp Flashcard ghi nhớ, Trắc nghiệm công thức, Bảng xếp hạng thi đua, Phân tích tiến độ và Diễn đàn học tập.",
   "requestFramePermissions": [],
-  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
 }

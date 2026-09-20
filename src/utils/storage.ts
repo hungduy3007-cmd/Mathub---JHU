@@ -1,43 +1,160 @@
-import { UserProfile, LeaderboardUser, ForumPost } from '../types';
+import { UserProfile, LeaderboardUser, ForumPost, UserAccount, Grade } from '../types';
 
+const ACCOUNTS_KEY = 'mathhub_accounts_v2';
+const CURRENT_ACCOUNT_ID_KEY = 'mathhub_current_account_id';
 const USER_PROFILE_KEY = 'mathhub_user_profile';
 const FORUM_POSTS_KEY = 'mathhub_forum_posts';
 
-export const DEFAULT_USER_PROFILE: UserProfile = {
-  name: 'Học Sinh Chăm Chỉ',
-  avatar: '🦉',
-  grade: 12,
-  school: 'THPT Chuyên',
-  xp: 450,
-  level: 3,
-  streak: 5,
-  lastStudyDate: new Date().toISOString().split('T')[0],
-  masteredFormulaIds: ['f-12-01', 'f-12-04', 'f-12-10', 'f-11-01', 'f-10-06'],
-  reviewedFormulaIds: ['f-12-07', 'f-11-06'],
-  favoriteFormulaIds: ['f-12-08', 'f-11-01', 'f-10-07'],
-  reminderEnabled: true,
-  reminderTime: '20:00',
-  quizHistory: [
-    {
-      id: 'h-1',
-      date: new Date(Date.now() - 86400000).toISOString().split('T')[0],
-      topicId: '12-khoi-tron-xoay',
-      score: 5,
-      total: 5,
-      xpEarned: 50,
-      timeSpentSeconds: 120,
+export const DEFAULT_ACCOUNTS: UserAccount[] = [
+  {
+    id: 'acc-1',
+    username: 'quan12',
+    password: '123',
+    createdAt: '2026-01-10T08:00:00.000Z',
+    profile: {
+      name: 'Nguyễn Minh Quân',
+      avatar: '🦊',
+      grade: 12,
+      school: 'Chuyên Hà Nội - Amsterdam',
+      xp: 2850,
+      level: 19,
+      streak: 28,
+      lastStudyDate: new Date().toISOString().split('T')[0],
+      masteredFormulaIds: [
+        'f-12-01', 'f-12-02', 'f-12-03', 'f-12-04', 'f-12-05', 
+        'f-12-06', 'f-12-07', 'f-12-08', 'f-12-09', 'f-12-10',
+        'f-12-11', 'f-12-12', 'f-12-13', 'f-12-14', 'f-12-15',
+        'f-12-16', 'f-12-17', 'f-12-18', 'f-12-19', 'f-12-20'
+      ],
+      reviewedFormulaIds: ['f-11-01', 'f-11-06'],
+      favoriteFormulaIds: ['f-12-01', 'f-12-08', 'f-12-15'],
+      reminderEnabled: true,
+      reminderTime: '21:00',
+      quizHistory: [
+        {
+          id: 'q-q1',
+          date: new Date(Date.now() - 86400000).toISOString().split('T')[0],
+          topicId: '12-nguyen-ham-tich-phan',
+          score: 5,
+          total: 5,
+          xpEarned: 50,
+          timeSpentSeconds: 110,
+        },
+        {
+          id: 'q-q2',
+          date: new Date().toISOString().split('T')[0],
+          topicId: '12-phuong-phap-toa-do-khong-gian',
+          score: 5,
+          total: 5,
+          xpEarned: 50,
+          timeSpentSeconds: 95,
+        }
+      ],
     },
-    {
-      id: 'h-2',
-      date: new Date().toISOString().split('T')[0],
-      topicId: '12-nguyen-ham-tich-phan',
-      score: 4,
-      total: 5,
-      xpEarned: 40,
-      timeSpentSeconds: 145,
-    }
-  ],
-};
+  },
+  {
+    id: 'acc-2',
+    username: 'linh12',
+    password: '123',
+    createdAt: '2026-01-15T09:30:00.000Z',
+    profile: {
+      name: 'Trần Thảo Linh',
+      avatar: '🦄',
+      grade: 12,
+      school: 'Chuyên Lê Hồng Phong TP.HCM',
+      xp: 2420,
+      level: 16,
+      streak: 21,
+      lastStudyDate: new Date().toISOString().split('T')[0],
+      masteredFormulaIds: [
+        'f-12-01', 'f-12-04', 'f-12-05', 'f-12-07', 'f-12-08',
+        'f-12-09', 'f-12-10', 'f-12-11', 'f-12-12', 'f-12-13',
+        'f-12-14', 'f-12-15', 'f-12-16'
+      ],
+      reviewedFormulaIds: ['f-12-02', 'f-12-03'],
+      favoriteFormulaIds: ['f-12-07', 'f-12-11'],
+      reminderEnabled: true,
+      reminderTime: '20:30',
+      quizHistory: [
+        {
+          id: 'q-l1',
+          date: new Date().toISOString().split('T')[0],
+          topicId: '12-ung-dung-dao-ham',
+          score: 5,
+          total: 5,
+          xpEarned: 50,
+          timeSpentSeconds: 105,
+        }
+      ],
+    },
+  },
+  {
+    id: 'acc-3',
+    username: 'nam11',
+    password: '123',
+    createdAt: '2026-02-01T14:15:00.000Z',
+    profile: {
+      name: 'Lê Hoàng Nam',
+      avatar: '🦁',
+      grade: 11,
+      school: 'Chuyên Lam Sơn Thanh Hóa',
+      xp: 1980,
+      level: 13,
+      streak: 15,
+      lastStudyDate: new Date().toISOString().split('T')[0],
+      masteredFormulaIds: ['f-11-01', 'f-11-02', 'f-11-03', 'f-11-04', 'f-11-05', 'f-11-06'],
+      reviewedFormulaIds: ['f-11-07', 'f-11-08'],
+      favoriteFormulaIds: ['f-11-01', 'f-11-03'],
+      reminderEnabled: true,
+      reminderTime: '19:30',
+      quizHistory: [
+        {
+          id: 'q-n1',
+          date: new Date().toISOString().split('T')[0],
+          topicId: '11-luong-giac',
+          score: 5,
+          total: 5,
+          xpEarned: 50,
+          timeSpentSeconds: 115,
+        }
+      ],
+    },
+  },
+  {
+    id: 'acc-4',
+    username: 'bao10',
+    password: '123',
+    createdAt: '2026-02-18T10:00:00.000Z',
+    profile: {
+      name: 'Phạm Gia Bảo',
+      avatar: '🐯',
+      grade: 10,
+      school: 'Chuyên Khoa Học Tự Nhiên',
+      xp: 450,
+      level: 3,
+      streak: 5,
+      lastStudyDate: new Date().toISOString().split('T')[0],
+      masteredFormulaIds: ['f-10-01', 'f-10-02', 'f-10-06'],
+      reviewedFormulaIds: ['f-10-03', 'f-10-04'],
+      favoriteFormulaIds: ['f-10-01'],
+      reminderEnabled: false,
+      reminderTime: '20:00',
+      quizHistory: [
+        {
+          id: 'q-b1',
+          date: new Date().toISOString().split('T')[0],
+          topicId: '10-vecto',
+          score: 4,
+          total: 5,
+          xpEarned: 40,
+          timeSpentSeconds: 130,
+        }
+      ],
+    },
+  },
+];
+
+export const DEFAULT_USER_PROFILE: UserProfile = DEFAULT_ACCOUNTS[0].profile;
 
 export const INITIAL_LEADERBOARD: LeaderboardUser[] = [
   {
@@ -184,24 +301,201 @@ export const INITIAL_FORUM_POSTS: ForumPost[] = [
   },
 ];
 
-export function loadUserProfile(): UserProfile {
+export function loadAccounts(): UserAccount[] {
   try {
-    const saved = localStorage.getItem(USER_PROFILE_KEY);
+    const saved = localStorage.getItem(ACCOUNTS_KEY);
     if (saved) {
-      return { ...DEFAULT_USER_PROFILE, ...JSON.parse(saved) };
+      const parsed: UserAccount[] = JSON.parse(saved);
+      if (Array.isArray(parsed) && parsed.length > 0) {
+        return parsed;
+      }
     }
   } catch (e) {
-    console.error('Error loading user profile', e);
+    console.error('Error loading accounts', e);
+  }
+  // Initialize with defaults
+  saveAccounts(DEFAULT_ACCOUNTS);
+  return DEFAULT_ACCOUNTS;
+}
+
+export function saveAccounts(accounts: UserAccount[]): void {
+  try {
+    localStorage.setItem(ACCOUNTS_KEY, JSON.stringify(accounts));
+  } catch (e) {
+    console.error('Error saving accounts', e);
+  }
+}
+
+export function getCurrentAccountId(): string {
+  try {
+    const currentId = localStorage.getItem(CURRENT_ACCOUNT_ID_KEY);
+    if (currentId) return currentId;
+  } catch (e) {
+    console.error('Error reading current account id', e);
+  }
+  return DEFAULT_ACCOUNTS[0].id;
+}
+
+export function setCurrentAccountId(id: string | null): void {
+  try {
+    if (id) {
+      localStorage.setItem(CURRENT_ACCOUNT_ID_KEY, id);
+    } else {
+      localStorage.removeItem(CURRENT_ACCOUNT_ID_KEY);
+    }
+  } catch (e) {
+    console.error('Error setting current account id', e);
+  }
+}
+
+export function getCurrentAccount(): UserAccount | null {
+  const accounts = loadAccounts();
+  const currentId = getCurrentAccountId();
+  const found = accounts.find(a => a.id === currentId);
+  if (found) return found;
+  if (accounts.length > 0) {
+    setCurrentAccountId(accounts[0].id);
+    return accounts[0];
+  }
+  return null;
+}
+
+export function loadUserProfile(): UserProfile {
+  const current = getCurrentAccount();
+  if (current) {
+    return current.profile;
   }
   return DEFAULT_USER_PROFILE;
 }
 
 export function saveUserProfile(profile: UserProfile): void {
   try {
+    const accounts = loadAccounts();
+    const currentId = getCurrentAccountId();
+    const index = accounts.findIndex(a => a.id === currentId);
+    if (index !== -1) {
+      accounts[index].profile = profile;
+      saveAccounts(accounts);
+    }
+    // Also save legacy key for compatibility
     localStorage.setItem(USER_PROFILE_KEY, JSON.stringify(profile));
   } catch (e) {
     console.error('Error saving user profile', e);
   }
+}
+
+export function loginAccount(username: string, password?: string): { success: boolean; account?: UserAccount; error?: string } {
+  const accounts = loadAccounts();
+  const cleanUsername = username.trim().toLowerCase();
+  
+  if (!cleanUsername) {
+    return { success: false, error: 'Vui lòng nhập tên đăng nhập hoặc email.' };
+  }
+
+  const account = accounts.find(a => 
+    a.username.toLowerCase() === cleanUsername || 
+    a.profile.name.toLowerCase() === cleanUsername
+  );
+
+  if (!account) {
+    return { success: false, error: 'Tài khoản không tồn tại. Vui lòng kiểm tra lại hoặc Đăng ký tài khoản mới!' };
+  }
+
+  // Check password if account has password and password was provided
+  if (account.password && password && account.password !== password) {
+    return { success: false, error: 'Mật khẩu không chính xác. Mẹo: Tài khoản mẫu mật khẩu là "123".' };
+  }
+
+  setCurrentAccountId(account.id);
+  saveUserProfile(account.profile);
+  return { success: true, account };
+}
+
+export function registerAccount(data: {
+  username: string;
+  password?: string;
+  name: string;
+  grade: Grade;
+  school?: string;
+  avatar: string;
+}): { success: boolean; account?: UserAccount; error?: string } {
+  const accounts = loadAccounts();
+  const cleanUsername = data.username.trim().toLowerCase().replace(/\s+/g, '');
+
+  if (!cleanUsername || cleanUsername.length < 3) {
+    return { success: false, error: 'Tên đăng nhập phải có ít nhất 3 ký tự (viết liền, không dấu).' };
+  }
+
+  const exists = accounts.some(a => a.username.toLowerCase() === cleanUsername);
+  if (exists) {
+    return { success: false, error: 'Tên đăng nhập đã được sử dụng. Vui lòng chọn tên khác!' };
+  }
+
+  if (!data.name.trim()) {
+    return { success: false, error: 'Vui lòng nhập họ và tên học sinh.' };
+  }
+
+  const today = new Date().toISOString().split('T')[0];
+  const newAccount: UserAccount = {
+    id: `acc-${Date.now()}-${Math.random().toString(36).substring(2, 6)}`,
+    username: cleanUsername,
+    password: data.password || '123',
+    createdAt: new Date().toISOString(),
+    profile: {
+      name: data.name.trim(),
+      avatar: data.avatar || '🦉',
+      grade: data.grade || 12,
+      school: data.school?.trim() || 'THPT',
+      xp: 100, // Welcome gift XP!
+      level: 1,
+      streak: 1,
+      lastStudyDate: today,
+      masteredFormulaIds: [],
+      reviewedFormulaIds: [],
+      favoriteFormulaIds: [],
+      reminderEnabled: true,
+      reminderTime: '20:00',
+      quizHistory: [],
+    },
+  };
+
+  accounts.push(newAccount);
+  saveAccounts(accounts);
+  setCurrentAccountId(newAccount.id);
+  saveUserProfile(newAccount.profile);
+
+  return { success: true, account: newAccount };
+}
+
+export function switchAccount(accountId: string): UserAccount | null {
+  const accounts = loadAccounts();
+  const account = accounts.find(a => a.id === accountId);
+  if (account) {
+    setCurrentAccountId(account.id);
+    saveUserProfile(account.profile);
+    return account;
+  }
+  return null;
+}
+
+export function deleteAccount(accountId: string): { success: boolean; nextAccount?: UserAccount; error?: string } {
+  const accounts = loadAccounts();
+  if (accounts.length <= 1) {
+    return { success: false, error: 'Cần duy trì ít nhất 1 tài khoản trên thiết bị.' };
+  }
+
+  const updated = accounts.filter(a => a.id !== accountId);
+  saveAccounts(updated);
+
+  const currentId = getCurrentAccountId();
+  if (currentId === accountId) {
+    const nextAcc = updated[0];
+    setCurrentAccountId(nextAcc.id);
+    saveUserProfile(nextAcc.profile);
+    return { success: true, nextAccount: nextAcc };
+  }
+
+  return { success: true };
 }
 
 export function loadForumPosts(): ForumPost[] {

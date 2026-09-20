@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import { UserProfile, LeaderboardUser } from '../types';
-import { INITIAL_LEADERBOARD } from '../utils/storage';
+import { INITIAL_LEADERBOARD, loadAccounts, getCurrentAccountId } from '../utils/storage';
 import { 
   Trophy, Medal, Flame, Star, Sparkles, 
   Crown, UserCheck, Edit3, Check 
@@ -23,22 +23,33 @@ export const LeaderboardView: React.FC<LeaderboardViewProps> = ({
 
   const avatarOptions = ['🦉', '🦊', '🦄', '🦁', '🐼', '🐯', '🐱', '🚀', '🎯', '⚡'];
 
-  // Construct combined leaderboard list including current user
+  // Construct combined leaderboard list including all local accounts and benchmark students
   const combinedUsers = useMemo(() => {
-    const currentUserEntry: LeaderboardUser = {
-      id: 'current-user',
-      name: userProfile.name,
-      avatar: userProfile.avatar,
-      grade: userProfile.grade,
-      school: userProfile.school || 'Học sinh MathHub',
-      xp: userProfile.xp,
-      streak: userProfile.streak,
-      formulasMastered: userProfile.masteredFormulaIds.length,
-      badge: userProfile.xp > 2000 ? 'Đại Bậc Thầy Toán 🌟' : userProfile.xp > 1000 ? 'Học Bá Siêu Đẳng 🚀' : 'Chiến Binh Chăm Chỉ ✏️',
-      isCurrentUser: true,
-    };
+    const allAccounts = loadAccounts();
+    const currentId = getCurrentAccountId();
 
-    const list = [...INITIAL_LEADERBOARD, currentUserEntry];
+    const accountEntries: LeaderboardUser[] = allAccounts.map(acc => {
+      const isCurr = acc.id === currentId;
+      const prof = isCurr ? userProfile : acc.profile;
+      return {
+        id: acc.id,
+        name: prof.name,
+        avatar: prof.avatar,
+        grade: prof.grade,
+        school: prof.school || 'Học sinh MathHub',
+        xp: prof.xp,
+        streak: prof.streak,
+        formulasMastered: prof.masteredFormulaIds.length,
+        badge: prof.xp > 2000 ? 'Đại Bậc Thầy Toán 🌟' : prof.xp > 1000 ? 'Học Bá Siêu Đẳng 🚀' : 'Chiến Binh Chăm Chỉ ✏️',
+        isCurrentUser: isCurr,
+      };
+    });
+
+    // Merge with benchmarks avoiding duplicate names
+    const accountNames = new Set(accountEntries.map(a => a.name.toLowerCase()));
+    const benchmarks = INITIAL_LEADERBOARD.filter(b => !accountNames.has(b.name.toLowerCase()));
+
+    const list = [...benchmarks, ...accountEntries];
     // Sort descending by XP
     list.sort((a, b) => b.xp - a.xp);
     return list;
