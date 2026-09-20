@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script>
+      (function() {
+        try {
+          var nativeFetch = window.fetch;
+          var _fetch = nativeFetch ? nativeFetch.bind(window) : undefined;
+          Object.defineProperty(window, 'fetch', {
+            get: function() {
+              return _fetch;
+            },
+            set: function(fn) {
+              _fetch = fn;
+            },
+            configurable: true,
+            enumerable: true
+          });
+          if (typeof Window !== 'undefined' && Window.prototype) {
+            try {
+              Object.defineProperty(Window.prototype, 'fetch', {
+                get: function() {
+                  return _fetch;
+                },
+                set: function(fn) {
+                  _fetch = fn;
+                },
+                configurable: true,
+                enumerable: true
+              });
+            } catch (e) {}
+          }
+        } catch (err) {
+          console.warn('Could not define fetch setter:', err);
+        }
+      })();
+    </script>
+    <title>MathHub THPT - Sổ Tay & Ôn Tập Công Thức Toán 10-12</title>
+    <meta name="description" content="Hệ thống toàn bộ công thức Toán Hình và Số lớp 10, 11, 12. Tích hợp Flashcard ghi nhớ, Trắc nghiệm công thức, Bảng xếp hạng, Phân tích tiến độ và Diễn đàn học tập tươi sáng, thân thiện." />
+    <meta property="og:title" content="MathHub THPT - Sổ Tay & Ôn Tập Công Thức Toán 10-12" />
+    <meta property="og:description" content="Hệ thống toàn bộ công thức Toán Hình và Số lớp 10, 11, 12. Tích hợp Flashcard ghi nhớ, Trắc nghiệm công thức, Bảng xếp hạng, Phân tích tiến độ và Diễn đàn học tập tươi sáng, thân thiện." />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" crossorigin="anonymous">
+  </head>
+  <body class="bg-amber-50/20 text-slate-800 antialiased selection:bg-indigo-500 selection:text-white">
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
+
